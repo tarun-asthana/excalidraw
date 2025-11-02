@@ -1,0 +1,17 @@
+{{- if .Values.collabServer.enabled -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "excalidraw.fullname" . }}-collab
+  labels:
+    {{- include "excalidraw.labels-collab" . | nindent 4 }}
+spec:
+  type: {{ .Values.collabServer.service.type }}
+  ports:
+    - port: {{ .Values.collabServer.service.port }}
+      targetPort: ws
+      protocol: TCP
+      name: ws
+  selector:
+    {{- include "excalidraw.selectorLabels-collab" . | nindent 4 }}
+{{- end }}

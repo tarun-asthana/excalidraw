@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "excalidraw.fullname" . }}-main
+  labels:
+    {{- include "excalidraw.labels-main" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "excalidraw.selectorLabels-main" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.excalidraw.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "excalidraw.selectorLabels-main" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "excalidraw.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.excalidraw.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}-main
+          securityContext:
+            {{- toYaml .Values.excalidraw.securityContext | nindent 12 }}
+          image: "{{ .Values.excalidraw.image.repository }}:{{ .Values.excalidraw.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.excalidraw.image.pullPolicy }}
+          env:
+            - name: APP_WS_OLD_SERVER_URL
+              value: "{{ .Values.excalidraw.hardCodedCollabServerURL }}"
+          {{- if and .Values.collabServer.enabled .Values.excalidraw.ingress.enabled }}
+            - name: APP_WS_NEW_SERVER_URL
+              {{- if .Values.excalidraw.ingress.tls }}
+              value: "https://ws-{{ .Values.excalidraw.ingress.host }}"
+              {{- else }}
+              value: "http://ws-{{ .Values.excalidraw.ingress.host }}"
+              {{- end }}
+          {{- else }}
+            - name: APP_WS_NEW_SERVER_URL
+              value: "{{ .Values.excalidraw.customCollabServerURL }}"
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: http
+          readinessProbe:
+            tcpSocket:
+              port: http
+          resources:
+            {{- toYaml .Values.excalidraw.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+

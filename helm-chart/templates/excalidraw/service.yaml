@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "excalidraw.fullname" . }}-main
+  labels:
+    {{- include "excalidraw.labels-main" . | nindent 4 }}
+spec:
+  type: {{ .Values.excalidraw.service.type }}
+  ports:
+    - port: {{ .Values.excalidraw.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "excalidraw.selectorLabels-main" . | nindent 4 }}
+

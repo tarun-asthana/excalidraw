@@ -1,0 +1,24 @@
+apiVersion: v2
+name: excalidraw
+description: A Helm chart for deploying Excalidraw — a collaborative whiteboard web app.
+type: application
+version: 0.1.0          
+appVersion: "latest" 
+
+maintainers:
+  - name: Tarun Asthana
+
+home: https://excalidraw.com
+icon: https://raw.githubusercontent.com/excalidraw/excalidraw/master/public/logo-512x512.png
+sources:
+  - https://github.com/excalidraw/excalidraw
+  - https://artifacthub.io/packages/helm/excalidraw/excalidraw
+
+keywords:
+  - whiteboard
+  - collaboration
+  - excalidraw
+  - webapp
+
+dependencies: []
+kubeVersion: ">=1.21.0-0"
