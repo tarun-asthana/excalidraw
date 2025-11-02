@@ -1,0 +1,49 @@
+{{- if .Values.excalidraw.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "excalidraw.fullname" . }}
+  labels:
+    {{- include "excalidraw.labels-main" . | nindent 4 }}
+  {{- with .Values.excalidraw.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.excalidraw.ingress.className }}
+  {{- if .Values.excalidraw.ingress.tls }}
+  tls:
+    {{- with .Values.excalidraw.ingress.tls }}
+    - hosts:
+        - {{ .host | quote }}
+        {{- if $.Values.collabServer.enabled }}
+        - ws-{{ .host }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.excalidraw.ingress.host }}
+      http:
+        paths:
+          - path: {{ .Values.excalidraw.ingress.path }}
+            pathType: {{ .Values.excalidraw.ingress.type }}
+            backend:
+              service:
+                name: "{{ include "excalidraw.fullname" . }}-main"
+                port:
+                  number: {{ .Values.excalidraw.service.port }}
+    {{- if .Values.collabServer.enabled }}
+    - host: ws-{{ .Values.excalidraw.ingress.host }}
+      http:
+        paths:
+          - path: /
+            pathType: {{ .Values.excalidraw.ingress.type }}
+            backend:
+              service:
+                name: "{{ include "excalidraw.fullname" . }}-collab"
+                port:
+                  number: {{ .Values.collabServer.service.port }}
+    {{- end }}
+{{- end }}
+
