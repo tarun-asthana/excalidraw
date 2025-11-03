@@ -20,7 +20,7 @@ spec:
         name: https
         protocol: HTTPS
       tls:
-        mode: SIMPLE
+        mode: PASSTHROUGH
         credentialName: excalidraw-tls
       hosts:
         - "excalidraw.bhavyasachdeva.in"
