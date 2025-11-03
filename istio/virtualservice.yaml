@@ -17,3 +17,11 @@ spec:
             host: excalidraw
             port:
               number: 80
+    - match:
+        - uri:
+            prefix: /.well-known/acme-challenge/
+      route:
+        - destination:
+            host: cm-acme-http-solver
+            port:
+              number: 8089
