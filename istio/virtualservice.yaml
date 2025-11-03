@@ -7,7 +7,7 @@ spec:
   hosts:
     - "excalidraw.bhavyasachdeva.in"
   gateways:
-    - excalidraw-gateway
+    - excalidraw/excalidraw-gateway
   http:
     - match:
         - uri:
