@@ -13,8 +13,6 @@ spec:
         protocol: HTTP
       hosts:
         - "excalidraw.bhavyasachdeva.in"
-      tls:
-        httpsRedirect: true
     - port:
         number: 443
         name: https
