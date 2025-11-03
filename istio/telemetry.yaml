@@ -1,0 +1,17 @@
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  annotations:
+  name: excalidraw
+  namespace: excalidraw
+spec:
+  accessLogging:
+  - providers:
+    - name: envoy
+  metrics:
+  - providers:
+    - name: prometheus
+  tracing:
+  - providers:
+    - name: jaeger
+    randomSamplingPercentage: 100
