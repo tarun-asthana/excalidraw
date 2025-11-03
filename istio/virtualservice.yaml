@@ -14,6 +14,6 @@ spec:
             prefix: /
       route:
         - destination:
-            host: excalidraw-main.excalidraw.svc.cluster.local
+            host: excalidraw.excalidraw.svc.cluster.local
             port:
               number: 80
