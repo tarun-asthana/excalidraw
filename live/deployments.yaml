@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: live-v1
+  namespace: live
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: live-demo
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: live-demo
+        version: v1
+    spec:
+      containers:
+      - name: live
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: MESSAGE
+          value: "live v1"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: live-v2
+  namespace: live
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: live-demo
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: live-demo
+        version: v2
+    spec:
+      containers:
+      - name: live
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: MESSAGE
+          value: "live v2"
