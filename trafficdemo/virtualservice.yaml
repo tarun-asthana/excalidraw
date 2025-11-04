@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: excalidraw
+  namespace: excalidraw
+spec:
+  hosts:
+  - excalidraw.bhavyasachdeva.in
+  gateways:
+  - excalidraw-gateway
+  http:
+  - route:
+    - destination:
+        host: excalidraw
+        subset: v1
+      weight: 80
+    - destination:
+        host: excalidraw
+        subset: v2
+      weight: 20
