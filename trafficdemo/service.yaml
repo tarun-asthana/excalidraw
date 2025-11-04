@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: excalidraw
+  name: excalidraw-demo
   namespace: excalidraw
 spec:
   selector:
-    app: excalidraw
+    app: excalidraw-demo
   ports:
   - port: 80
     targetPort: 80
