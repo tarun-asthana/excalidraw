@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: excalidraw-v1
+  namespace: excalidraw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: excalidraw
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: excalidraw
+        version: v1
+    spec:
+      containers:
+      - name: excalidraw
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: MESSAGE
+          value: "Excalidraw v1"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: excalidraw-v2
+  namespace: excalidraw
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: excalidraw
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: excalidraw
+        version: v2
+    spec:
+      containers:
+      - name: excalidraw
+        image: nginx
+        ports:
+        - containerPort: 80
+        env:
+        - name: MESSAGE
+          value: "Excalidraw v2"
